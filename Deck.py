@@ -24,18 +24,19 @@ text_surface_obj = font_obj.render('pixel pig blackjack', True, BLACK, WHITE)
 text_rect_obj = text_surface_obj.get_rect()
 text_rect_obj.center = (400, 100)
 
-
-
-#button set up
-hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),
-	text='Start Blackjack', manager=manager)
-
-goodbye_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 375), (100, 50)),
-	text='Say Goodbye', manager=manager)
-
 #assign images
 
-player1 = pygame.image.load("graphics/pixel_pig.png").convert()
+img0 = pygame.image.load("graphics/pixel_pig.jpg").convert()
+img0_x = 400
+img0_y = 500
+
+#button set up
+hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (150, 50)),
+ 	text='Start Blackjack', manager=manager)
+
+# goodbye_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 375), (100, 50)),
+# 	text='Say Goodbye', manager=manager)
+
 
 #event [while] loop
 
@@ -44,25 +45,33 @@ while is_running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			is_running = False
-
+	
 		if event.type == pygame.USEREVENT:
 			if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
 				if event.ui_element == hello_button:
 					# screen.blit(player1, (0, 0))
 					# pygame.display.update()
 					print('Hello')
-				if event.ui_element == goodbye_button:
-					print(pygame.font.get_fonts())
+				# if event.ui_element == goodbye_button:
+				# 	print(pygame.font.get_fonts())
 				
 
 		manager.process_events(event)
 
 	manager.update(time_delta)
 
+	if img0_x != 40:
+		img0_x -= 4
+		if img0_y != 100:
+			img0_y -= 4
+			screen.fill(WHITE)
+
+	
+
+	screen.blit(img0, (img0_x, img0_y))
 	screen.blit(text_surface_obj, text_rect_obj)
 
-	screen.blit(player1, (0, 350))
-	manager.draw_ui(screen)
+	# manager.draw_ui(screen)
 
 
 

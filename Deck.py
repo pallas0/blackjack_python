@@ -1,24 +1,86 @@
 import sys, pygame, random
 from pygame.locals import *
+import pygame_gui
+
+#screen set up
+
 pygame.init()
 
-size = width, height = 940, 720
-speed = [1, 1]
-black = 0, 0, 0
+pygame.display.set_caption('Blackjack (Rough Draft)')
 
-screen = pygame.display.set_mode(size)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
-# obj_0 = Card(14, "clubs") #huh let's try that again. oh - not declared yet
-#this needs to be a dictionary not an array/list
-#wtf is the exact different between an array and a list again?
+screen = pygame.display.set_mode((800, 600))
+screen.fill(WHITE)
+clock = pygame.time.Clock()
+is_running = True
+
+manager = pygame_gui.UIManager((800, 600))
+
+#text setting
+font_obj = pygame.font.Font('fixedsys.ttf', 64)
+text_surface_obj = font_obj.render('pixel pig blackjack', True, BLACK, WHITE)
+text_rect_obj = text_surface_obj.get_rect()
+text_rect_obj.center = (400, 100)
+
+
+
+#button set up
+hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (100, 50)),
+	text='Start Blackjack', manager=manager)
+
+goodbye_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 375), (100, 50)),
+	text='Say Goodbye', manager=manager)
+
+#assign images
+
+player1 = pygame.image.load("graphics/pixel_pig.png").convert()
+
+#event [while] loop
+
+while is_running:
+	time_delta = clock.tick(60)/1000.0
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			is_running = False
+
+		if event.type == pygame.USEREVENT:
+			if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+				if event.ui_element == hello_button:
+					# screen.blit(player1, (0, 0))
+					# pygame.display.update()
+					print('Hello')
+				if event.ui_element == goodbye_button:
+					print(pygame.font.get_fonts())
+				
+
+		manager.process_events(event)
+
+	manager.update(time_delta)
+
+	screen.blit(text_surface_obj, text_rect_obj)
+
+	screen.blit(player1, (0, 350))
+	manager.draw_ui(screen)
+
+
+
+	pygame.display.update()
+
+# size = width, height = 940, 720
+# speed = [1, 1]
+# black = 0, 0, 0
+
+# screen = pygame.display.set_mode(size)
+
+
 class Card:
-	 def __init__(self, value, suit):  #ok apparently this is too old school.(args?)
-	# on the upside,
-	# it compiled! [and which friggin call is prompting that message? shall find out -.-]
+	 def __init__(self, value, suit):  
+	
 	 	self.value = value
 	 	self.suit = suit
-	 	self.img = 'f' + str(value) + suit #jpg_images["f""{value}{suit}"] don't really need a dictionary unless there's a key val relationship
-	 	#can create that if necessary, right now just using string
+	 	self.img = 'f' + str(value) + suit 
 	 suit_master = ["hearts", "spades", "clubs", "diamonds"]
 	 value_master = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
@@ -33,36 +95,33 @@ class Deck:
 			for suit_elem in ["hearts", "spades", "clubs", "diamonds"]:
 				self.cards.append(Card(val, suit_elem))
 
-deck_test = Deck()
-#lets_see = len(deck_test.cards)
-lets_see = deck_test.cards[5]
-img_check = lets_see.img
-n = random.randint(1, 54)
-print(n)
-#Deck[0] == f2hearts
-#cool. maybe I'm not a moron ^.^
 
-obj = Card(14, "Clubs")
-obj_card = 'cards/' + obj.img + '.jpg'
+#deck_test = Deck()
 
-#VICTORY
 
-obj_img = pygame.image.load(obj_card)
-obj_rect = obj_img.get_rect()
+#n = random.randint(1, 54)
 
-while 1:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT: sys.exit()
 
-	obj_rect = obj_rect.move(speed)
-	if obj_rect.left < 0 or obj_rect.right > width:
-		speed[0] = -speed[0]
-	if obj_rect.top < 0 or obj_rect.bottom > height:
-		speed[1] = -speed[1]
+# obj = Card(14, "Clubs")
+# obj_card = 'cards/' + obj.img + '.jpg'
 
-	screen.fill(black)
-	screen.blit(obj_img, obj_rect)
-	pygame.display.flip()
+
+# obj_img = pygame.image.load(obj_card)
+# obj_rect = obj_img.get_rect()
+
+# while 1:
+# 	for event in pygame.event.get():
+# 		if event.type == pygame.QUIT: sys.exit()
+
+# 	obj_rect = obj_rect.move(speed)
+# 	if obj_rect.left < 0 or obj_rect.right > width:
+# 		speed[0] = -speed[0]
+# 	if obj_rect.top < 0 or obj_rect.bottom > height:
+# 		speed[1] = -speed[1]
+
+# 	screen.fill(black)
+# 	screen.blit(obj_img, obj_rect)
+# 	pygame.display.flip()
 
 #Card card = new Card(14, "clubs")
 

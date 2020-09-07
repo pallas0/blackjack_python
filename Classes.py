@@ -15,10 +15,10 @@ class Img:
 	 screen_obj):
 		def move_func(self, new_x, new_y):
 			dx, dy = -1, -1
-			if abs(new_x - self.x) >= 1:
-				self.x += dx*4
-				if abs(new_y - self.y) >= 1:
-					self.y += dy*4
+			if abs(new_x - self.x) >= 0.1:
+				self.x += dx*0.2
+				if abs(new_y - self.y) >= 0.1:
+					self.y += dy*0.2
 					fill_func(screen_obj)
 			blit_func(self.obj, (self.x, self.y))
 			screen_update_func()

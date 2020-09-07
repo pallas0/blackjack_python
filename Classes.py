@@ -12,7 +12,7 @@ class Img:
 		self.y = y
 
 	def move(fill_func, blit_func, screen_update_func,
-	 screen_obj):
+	 screen_obj, second_obj):
 		def move_func(self, new_x, new_y):
 			dx, dy = -1, -1
 			if abs(new_x - self.x) >= 0.1:
@@ -21,6 +21,8 @@ class Img:
 					self.y += dy*0.2
 					fill_func(screen_obj)
 			blit_func(self.obj, (self.x, self.y))
+			if second_obj:
+				blit_func(second_obj.obj, (second_obj.x, second_obj.y))
 			screen_update_func()
 			return (self.x, self.y)
 		return move_func

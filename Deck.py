@@ -30,11 +30,17 @@ font_obj_2 = pygame.font.Font('fixedsys.ttf', 24)
 text_surface_obj_2 = font_obj_2.render('Press "h" to hold or "s" to stand for your turn', True, BLACK, WHITE)
 text_surface_obj_3 = font_obj_2.render("The house will hit until their score is 17 or higher",
 	True, BLACK, WHITE)
-cont_surface_obj = font_obj_2.render("(press Enter to continue)", True, BLACK, WHITE)
+text_surface_obj_4 = font_obj_2.render("First to get a total score of 21 wins", True, BLACK, WHITE)
+text_surface_obj_5 = font_obj_2.render("Past 21 is a bust, a tied score is a draw", True, BLACK, WHITE)
+text_surface_obj_6 = font_obj_2.render("Good Luck", True, BLACK, WHITE)
+cont_surface_obj = font_obj_2.render("(press Enter to continue or B to go back)", True, BLACK, WHITE)
 
-instruct_text0 = Img(text_surface_obj_2, 75, 80)
-instruct_text1 = Img(text_surface_obj_3, 75, 80)
-cont_text = Img(cont_surface_obj, 300, 400)
+instruct_text0 = Img(text_surface_obj_2, 75, 100) #coordinate fix
+instruct_text1 = Img(text_surface_obj_3, 75, 100)
+instruct_text2 = Img(text_surface_obj_4, 75, 100)
+instruct_text3 = Img(text_surface_obj_5, 75, 100)
+instruct_text4 = Img(text_surface_obj_6, 75, 100)
+cont_text = Img(cont_surface_obj, 160, 400)
 
 # text_rect_obj = text_surface_obj.get_rect()
 # text_rect_obj.center = (400, 100)
@@ -102,7 +108,8 @@ while is_running:
 
 	while instruct:
 		screen.fill(WHITE)
-		instruct_img_array = [instruct_text0, instruct_text1] #orders the text images
+		instruct_img_array = [instruct_text0, instruct_text1, instruct_text2, instruct_text3,
+		instruct_text4] #orders the text images
 		
 
 		screen.blit(instruct_img_array[instruct_index].obj, (instruct_img_array[instruct_index].x,
@@ -116,6 +123,9 @@ while is_running:
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
 					instruct_index += 1 #need to add a for loop so this doesn't crash
+					pygame.display.update()
+				if event.key == pygame.K_b:
+					instruct_index -= 1
 					pygame.display.update()
 			
 		manager.process_events(event)

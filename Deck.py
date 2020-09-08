@@ -15,7 +15,6 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode((800, 600))
 background = pygame.Surface((800, 600))
 background.fill(pygame.Color('#000000'))
-background_obj = Rect(0, 0, 800, 600)
 
 clock = pygame.time.Clock()
 is_running = True
@@ -26,6 +25,10 @@ manager = pygame_gui.UIManager((800, 600))
 font_obj = pygame.font.Font('fixedsys.ttf', 64)
 text_surface_obj = font_obj.render('pixel pig blackjack', True, BLACK, WHITE)
 img_intro_text = Img(text_surface_obj, 60, 70)
+
+font_obj_2 = pygame.font.Font('fixedsys.ttf', 32)
+text_surface_obj_2 = font_obj_2.render('Press "h" to hold or "s" to stand', True, BLACK, WHITE)
+instruct_text = Img(text_surface_obj_2, 110, 80)
 
 # text_rect_obj = text_surface_obj.get_rect()
 # text_rect_obj.center = (400, 100)
@@ -45,6 +48,7 @@ hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275)
 #intro stage bool
 intro = True
 main = False
+instruct_frame = True
 
 #event [while] loop
 while is_running:
@@ -93,23 +97,22 @@ while is_running:
 
 	while main:
 		screen.fill(WHITE)
-		manager.process_events(event)
-		
+		manager.draw_ui(screen)
+
+		screen.blit(instruct_text.obj, (instruct_text.x, instruct_text.y))
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				main, is_running = False, False
+			if event.type == pygame.K_KP_ENTER:
+				text_surface_obj_2.x = 800
+				text_surface_obj_2.y = 600
+				screen.fill(WHITE)
+				pygame.display.update()
+		manager.process_events(event)
 		manager.update(time_delta)
 
-	# if img0.x != 40:
-	# 	img0.x -= 4
-	# 	if img0.y != 100:
-	# 		img0.y -= 4
-	# 		screen.fill(WHITE)
 
-	
-	# screen.blit(img0.obj, (img0.x, img0.y))
-	# screen.blit(img_intro_text.obj, (img_intro_text.x, img_intro_text.y))
-		# manager.draw_ui(screen)
 		pygame.display.update()
 
 	

@@ -14,6 +14,7 @@ class Img:
 	def move(fill_func, blit_func, screen_update_func,
 	 screen_obj, second_obj):
 		def move_func(self, new_x, new_y):
+			#temp, need to fix this
 			dx, dy = -1, -1
 			if abs(new_x - self.x) >= 0.1:
 				self.x += dx*0.2

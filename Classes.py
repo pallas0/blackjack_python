@@ -58,4 +58,27 @@ class Deck:
 			for suit_elem in ["hearts", "spades", "clubs", "diamonds"]:
 				self.cards.append(Card(val, suit_elem))
 
+	def deal_hand(self):
+		if len(self.cards) <= 4:
+			return 0
+		else:
+			card_list, i = [], 0
+			index_range = len(self.cards) - 1
+			while i <= 3:
+				n = random.randint(0, index_range - i)
+				card_list.append(self.cards.pop(n))
+				i += 1
+			return card_list
+
+deck1 = Deck()
+card_list1 = deck1.deal_hand()
+
+for elem in card_list1:
+	print(elem.img)
+
+class Player:
+	def __init__(self):
+		self.cards = []
+		self.score = 0
+
 

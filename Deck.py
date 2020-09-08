@@ -26,9 +26,15 @@ font_obj = pygame.font.Font('fixedsys.ttf', 64)
 text_surface_obj = font_obj.render('pixel pig blackjack', True, BLACK, WHITE)
 img_intro_text = Img(text_surface_obj, 60, 70)
 
-font_obj_2 = pygame.font.Font('fixedsys.ttf', 32)
-text_surface_obj_2 = font_obj_2.render('Press "h" to hold or "s" to stand', True, BLACK, WHITE)
-instruct_text = Img(text_surface_obj_2, 110, 80)
+font_obj_2 = pygame.font.Font('fixedsys.ttf', 24)
+text_surface_obj_2 = font_obj_2.render('Press "h" to hold or "s" to stand for your turn', True, BLACK, WHITE)
+text_surface_obj_3 = font_obj_2.render("The house will hit until their score is 17 or higher",
+	True, BLACK, WHITE)
+cont_surface_obj = font_obj_2.render("(press Enter to continue)", True, BLACK, WHITE)
+
+instruct_text0 = Img(text_surface_obj_2, 75, 80)
+instruct_text1 = Img(text_surface_obj_3, 75, 80)
+cont_text = Img(cont_surface_obj, 300, 400)
 
 # text_rect_obj = text_surface_obj.get_rect()
 # text_rect_obj.center = (400, 100)
@@ -42,13 +48,12 @@ img0 = Img(img_temp, 400.0, 500.0)
 hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (150, 50)),
  	text='Start', manager=manager)
 
-# goodbye_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 375), (100, 50)),
-# 	text='Say Goodbye', manager=manager)
 
 #intro stage bool
 intro = True
+instruct = False
+instruct_index = 0
 main = False
-instruct_frame = True
 
 #event [while] loop
 while is_running:
@@ -89,31 +94,57 @@ while is_running:
 				if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
 					screen.fill(WHITE)
 					pygame.display.update()
-					main = True
+					instruct = True
 					intro = False
 		manager.process_events(event)
 		manager.update(time_delta)
 		pygame.display.update()
 
-	while main:
+	while instruct:
 		screen.fill(WHITE)
-		manager.draw_ui(screen)
+		instruct_img_array = [instruct_text0, instruct_text1] #orders the text images
+		
 
-		screen.blit(instruct_text.obj, (instruct_text.x, instruct_text.y))
+		screen.blit(instruct_img_array[instruct_index].obj, (instruct_img_array[instruct_index].x,
+		 instruct_img_array[instruct_index].y))
+		screen.blit(cont_text.obj, (cont_text.x, cont_text.y))
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				main, is_running = False, False
-			if event.type == pygame.K_KP_ENTER:
-				text_surface_obj_2.x = 800
-				text_surface_obj_2.y = 600
-				screen.fill(WHITE)
-				pygame.display.update()
+				instruct, is_running = False, False
+
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_KP_ENTER:
+					instruct_index += 1 #need to add a for loop so this doesn't crash
+					pygame.display.update()
+			
 		manager.process_events(event)
 		manager.update(time_delta)
 
 
 		pygame.display.update()
+
+
+	# while main:
+	# 	screen.fill(WHITE)
+	# 	manager.draw_ui(screen)
+
+	# 	screen.blit(instruct_text.obj, (instruct_text.x, instruct_text.y))
+
+	# 	for event in pygame.event.get():
+	# 		if event.type == pygame.QUIT:
+	# 			main, is_running = False, False
+	# 		if event.type == pygame.K_KP_ENTER:
+
+	# 			text_surface_obj_2.x = 800
+	# 			text_surface_obj_2.y = 600
+	# 			screen.fill(WHITE)
+	# 			pygame.display.update()
+	# 	manager.process_events(event)
+	# 	manager.update(time_delta)
+
+
+	# 	pygame.display.update()
 
 	
 	pygame.display.update()

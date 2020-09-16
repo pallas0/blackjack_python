@@ -1,7 +1,7 @@
 import sys, pygame, random
 from pygame.locals import *
 import pygame_gui
-from Classes import Img
+from Classes import Img, Deck, Player, Card
 
 #screen set up
 
@@ -122,11 +122,19 @@ while is_running:
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
-					instruct_index += 1 #need to add a for loop so this doesn't crash
-					pygame.display.update()
+					if instruct_index < len(instruct_img_array) - 1:
+						instruct_index += 1
+						pygame.display.update()
+					else:
+						main = True
+						instruct = False
 				if event.key == pygame.K_b:
-					instruct_index -= 1
-					pygame.display.update()
+					if instruct_index > 0:
+						instruct_index -= 1
+						pygame.display.update()
+					else:
+						instruct_index = 0
+						pygame.display.update()
 			
 		manager.process_events(event)
 		manager.update(time_delta)
@@ -135,26 +143,28 @@ while is_running:
 		pygame.display.update()
 
 
-	# while main:
-	# 	screen.fill(WHITE)
-	# 	manager.draw_ui(screen)
+	while main:
+		screen.fill(WHITE)
+		move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
+		deck1 = Deck()
+		initial_hand = deck1.deal_hand()
+		temp = initial_hand[0]
+		card1_img = deck1.deal_visual(temp)
+	
 
-	# 	screen.blit(instruct_text.obj, (instruct_text.x, instruct_text.y))
-
-	# 	for event in pygame.event.get():
-	# 		if event.type == pygame.QUIT:
-	# 			main, is_running = False, False
-	# 		if event.type == pygame.K_KP_ENTER:
-
-	# 			text_surface_obj_2.x = 800
-	# 			text_surface_obj_2.y = 600
-	# 			screen.fill(WHITE)
-	# 			pygame.display.update()
-	# 	manager.process_events(event)
-	# 	manager.update(time_delta)
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				main, is_running = False, False
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_KP_ENTER:
+					#UGH so tired. iron this out.
+					print(isinstance(temp, Card))
+			
+		manager.process_events(event)
+		manager.update(time_delta)
 
 
-	# 	pygame.display.update()
+		pygame.display.update()
 
 	
 	pygame.display.update()

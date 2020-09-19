@@ -1,6 +1,7 @@
 import sys, pygame, random, math
 from pygame.locals import *
 import pygame_gui
+# from Deck import *
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -70,7 +71,7 @@ class Deck:
 		self.cards = []
 		self.position = 0
 		self.create()
-	card_position = [(500, 500), (500, 100), (400, 500), (400, 100)]
+	
 
 	def create(self):
 		#for item in range(number_of_decks):
@@ -90,16 +91,17 @@ class Deck:
 				i += 1
 			return card_list
 
-	def deal_visual(self, n):
-		flag = False
-		# move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
-		# if isinstance(n, Card):
-		# 	single_card = n.establish_image()
-		# 	move1(single_card, card_position[self.position][0], card_position[self.position[1]])
-		# 	self.position += 1
-		# 	return single_card
-		# else:
-			return flag
+	def deal_visual(move, position_array):
+		def deal_visual_func(self, n_card):
+			flag = False
+			# move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
+			if isinstance(n_card, Card):
+				single_card = n_card.establish_image()
+				move(single_card, card_position[self.position][0], card_position[self.position[1]])
+				self.position += 1
+				return single_card
+			else:
+				return flag
 
 
 

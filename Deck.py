@@ -9,8 +9,11 @@ pygame.init()
 
 pygame.display.set_caption('Blackjack (Rough Draft)')
 
+#need to divide this up into classses
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+
 
 screen = pygame.display.set_mode((800, 600))
 background = pygame.Surface((800, 600))
@@ -145,11 +148,17 @@ while is_running:
 
 	while main:
 		screen.fill(WHITE)
-		move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
+		#add conditional func so array is self-updating w/ more positions
+		#what's the max possible number of hands?
+		card_position = [(500, 500), (500, 100), (400, 500), (400, 100)]
+		
 		deck1 = Deck()
 		initial_hand = deck1.deal_hand()
 		temp = initial_hand[0]
-		card1_img = deck1.deal_visual(temp)
+		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
+		initial_animation = deck1.deal_visual(move0, card_position) #throwing an argument error
+		#might be good idea to import global variables from Deck and update within Classes
+		temp0 = initial_animation(temp)
 	
 
 		for event in pygame.event.get():

@@ -14,6 +14,7 @@ class Img:
 
 	def move(fill_func, blit_func, screen_update_func,
 	 screen_obj, second_obj):
+	#for second_obj, could pass array of stage Img objs before updating the screen
 		def move_func(self, new_x, new_y):
 			#temp, need to fix this
 			if new_x > self.x:
@@ -91,20 +92,20 @@ class Deck:
 				i += 1
 			return card_list
 
-	def deal_visual(move, position_array):
+	def deal_visual(self, move, position_array):
 		def deal_visual_func(self, n_card):
-			flag = False
 			# move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
 			if isinstance(n_card, Card):
 				single_card = n_card.establish_image()
 				move(single_card, card_position[self.position][0], card_position[self.position[1]])
 				self.position += 1
 				return single_card
-			else:
-				return flag
 
 
-
+deck1 = Deck()
+initial_hand = deck1.deal_hand()
+test_card = initial_hand[0]
+print(test_card.img)
 
 
 # for elem in card_list1:

@@ -155,8 +155,11 @@ while is_running:
 		deck1 = Deck()
 		initial_hand = deck1.deal_hand()
 		temp = initial_hand[0]
-		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
-		initial_animation = deck1.deal_visual(move0, card_position) #throwing an argument error
+		print(temp)
+		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None) 
+
+		initial_animation = deck1.deal_visual(move0, card_position) #argument error fixed by adding self arg
+		#to deal_visual func [in Deck class]
 		#might be good idea to import global variables from Deck and update within Classes
 		temp0 = initial_animation(temp)
 	

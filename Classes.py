@@ -63,8 +63,8 @@ class Card:
 	 
 
 	 def establish_image(self):
-	 	image = pygame.image.load("cards/" + self.img).convert()
-	 	image = Img(image, 400, 0)
+	 	image_construct = pygame.image.load("cards/" + self.img).convert()
+	 	image = Img(image_construct, 400, 300) #change for animation
 	 	return image
 
 class Deck:
@@ -80,32 +80,28 @@ class Deck:
 			for suit_elem in ["Hearts", "Spades", "Clubs", "Diamonds"]:
 				self.cards.append(Card(val, suit_elem))
 
-	def deal_hand(self):
-		if len(self.cards) <= 4:
+	def deal_card(self):
+		if len(self.cards) == 0:
 			return 0
 		else:
-			card_list, i = [], 0
-			index_range = len(self.cards) - 1
-			while i <= 3:
-				n = random.randint(0, index_range - i)
-				card_list.append(self.cards.pop(n))
-				i += 1
-			return card_list
+			n = random.randint(0, (len(self.cards) - 1))
+			new_card = self.cards.pop(n)
+			return new_card
 
-	def deal_visual(self, move, position_array):
+#rewrite, the move function is throwing a Nonetype error that's not worth unraveling
+	def deal_visual(move, position_array):
 		def deal_visual_func(self, n_card):
 			# move1 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None)
 			if isinstance(n_card, Card):
 				single_card = n_card.establish_image()
-				move(single_card, card_position[self.position][0], card_position[self.position[1]])
+				move(single_card, position_array[self.position][0], position_array[self.position][1])
 				self.position += 1
-				return single_card
 
 
-deck1 = Deck()
-initial_hand = deck1.deal_hand()
-test_card = initial_hand[0]
-print(test_card.img)
+# deck1 = Deck()
+# initial_hand = deck1.deal_hand()
+# test_card = initial_hand[0]
+# print(test_card.img)
 
 
 # for elem in card_list1:
@@ -115,6 +111,15 @@ class Player:
 	def __init__(self):
 		self.cards = []
 		self.score = 0
+
+	def update_score(self):
+		if len(self.cards) == 0:
+			self.score = 0
+		else:
+			sum = 0
+			for item in self.cards:
+				sum += item.value
+			self.score = sum
 
 
 

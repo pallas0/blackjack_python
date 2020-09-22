@@ -9,7 +9,7 @@ pygame.init()
 
 pygame.display.set_caption('Blackjack (Rough Draft)')
 
-#need to divide this up into classses
+#screen and color variables
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -63,6 +63,12 @@ intro = True
 instruct = False
 instruct_index = 0
 main = False
+
+#global game variables
+cards_in_play = []
+deck0 = Deck()
+house = Player()
+player0 = Player()
 
 #event [while] loop
 while is_running:
@@ -152,16 +158,16 @@ while is_running:
 		#what's the max possible number of hands?
 		card_position = [(500, 500), (500, 100), (400, 500), (400, 100)]
 		
-		deck1 = Deck()
-		initial_hand = deck1.deal_hand()
-		temp = initial_hand[0]
-		print(temp)
-		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, None) 
+		# deck1 = Deck()
+		# initial_hand = deck1.deal_hand()
+		# temp = initial_hand[0]
+		# temp_img = temp.establish_image()
+		# screen.blit(temp_img.obj, (0,0))
+		# #VICTORY! ...holy fuck I'm tired. ok, problem now is it keeps reshuffling the card blitted to (0,0)
+		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, 0)
+		deal_visual0 = Deck.deal_visual(move0, card_position) 
 
-		initial_animation = deck1.deal_visual(move0, card_position) #argument error fixed by adding self arg
-		#to deal_visual func [in Deck class]
-		#might be good idea to import global variables from Deck and update within Classes
-		temp0 = initial_animation(temp)
+		# initial_animation = deck1.deal_visual(move0, card_position) 
 	
 
 		for event in pygame.event.get():
@@ -169,8 +175,18 @@ while is_running:
 				main, is_running = False, False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
-					#UGH so tired. iron this out.
-					print(isinstance(temp, Card))
+					#have global cards array append the cards from deal_hand func
+					initial_hand = deck0.deal_hand() #update all to include modified deal function
+
+					cards_in_play.extend(initial_hand)
+					player0.cards.extend([cards_in_play[0], cards_in_play[2]])
+					house.cards.extend([cards_in_play[1], cards_in_play[3]])
+					player0.update_score()
+					house.update_score()
+					deal_visual0(deck0, player0.cards[0])
+
+
+					print(player0.cards[0].img)
 			
 		manager.process_events(event)
 		manager.update(time_delta)

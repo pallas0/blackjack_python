@@ -32,7 +32,11 @@ class Img:
 					fill_func(screen_obj)
 			blit_func(self.obj, (self.x, self.y))
 			if second_obj:
-				blit_func(second_obj.obj, (second_obj.x, second_obj.y))
+				if isinstance(second_obj, list):
+					for elem in second_obj:
+						blit_func(elem.obj, (elem.x, elem.y))
+				else:
+					blit_func(second_obj.obj, (second_obj.x, second_obj.y))
 			screen_update_func()
 			return (self.x, self.y)
 		return move_func

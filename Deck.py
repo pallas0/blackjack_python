@@ -176,6 +176,16 @@ while is_running:
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
 					#have global cards array append the cards from deal_hand func
+					while len(cards_in_play) < 4:
+						card_temp = deck0.deal_card()
+						#think I'm going to have the cards_in_play array store the cards img objects
+						#wait, maybe I should have the card class include its own Img obj --
+						#ok. need to research inheritance/class relationships so Card can have an Img obj as a class attribute.
+						#also need to reformat the card images
+						cards_in_play.append(card_temp)
+
+
+
 					initial_hand = deck0.deal_hand() #update all to include modified deal function
 
 					cards_in_play.extend(initial_hand)

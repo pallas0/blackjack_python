@@ -184,7 +184,7 @@ while is_running:
 					
 					cards_in_play.append(example)
 				if event.key == pygame.K_n:
-					move0(example.img, card_position[deck0.position][0], card_position[deck0.position][1])
+					# example.img.x, example.img.y = move0(example.img, card_position[deck0.position][0], card_position[deck0.position][1])
 					temp = deck0.cards[1]
 					cards_in_play.append(temp)
 					print(temp.value)
@@ -210,7 +210,7 @@ while is_running:
 					# print(player0.cards[0].img)
 		if flag:
 			for card in cards_in_play:
-				screen.blit(card.img.obj, (card.img.x, card.img.y))
+				screen.blit(card.img.obj, (int(card.img.x), int(card.img.y)))
 			
 			
 		manager.process_events(event)

@@ -58,7 +58,7 @@ class Card:
 	 	self.suit = suit
 	 	#make the object attribute store its own Img object (right?)
 	 	#try rewriting w/ pygame.image.load("string.type").convert()
-	 	self.img = 'f' + str(value) + suit + ".jpg"
+	 	self.img = self.establish_image()
 
 	 suit_master = ["hearts", "spades", "clubs", "diamonds"]
 	 value_master = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -67,8 +67,8 @@ class Card:
 	 
 
 	 def establish_image(self):
-	 	image_construct = pygame.image.load("cards/" + self.img).convert()
-	 	image = Img(image_construct, 400, 300) #change for animation
+	 	image_construct = pygame.image.load("cards/" + 'f' + str(self.value) + self.suit + ".jpg").convert()
+	 	image = Img(image_construct, 350, -200) #change for animation
 	 	return image
 
 class Deck:

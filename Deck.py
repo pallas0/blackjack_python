@@ -64,6 +64,10 @@ instruct = False
 instruct_index = 0
 main = False
 
+#editing temp variables
+flag = False
+i = 0
+
 #global game variables
 cards_in_play = []
 deck0 = Deck()
@@ -156,7 +160,7 @@ while is_running:
 		screen.fill(WHITE)
 		#add conditional func so array is self-updating w/ more positions
 		#what's the max possible number of hands?
-		card_position = [(500, 500), (500, 100), (400, 500), (400, 100)]
+		card_position = [(400, 400), (400, 100), (300, 400), (300, 100), (350, -100)]
 		
 		# deck1 = Deck()
 		# initial_hand = deck1.deal_hand()
@@ -164,8 +168,8 @@ while is_running:
 		# temp_img = temp.establish_image()
 		# screen.blit(temp_img.obj, (0,0))
 		# #VICTORY! ...holy fuck I'm tired. ok, problem now is it keeps reshuffling the card blitted to (0,0)
-		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, 0)
-		deal_visual0 = Deck.deal_visual(move0, card_position) 
+		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, cards_in_play)
+		# deal_visual0 = Deck.deal_visual(move0, card_position) 
 
 		# initial_animation = deck1.deal_visual(move0, card_position) 
 	
@@ -175,28 +179,39 @@ while is_running:
 				main, is_running = False, False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
+					example = deck0.cards[0]
+					flag = True
+					
+					cards_in_play.append(example)
+				if event.key == pygame.K_n:
+					move0(example.img, card_position[deck0.position][0], card_position[deck0.position][1])
+					temp = deck0.cards[1]
+					cards_in_play.append(temp)
+					print(temp.value)
+					print(temp.suit)
 					#have global cards array append the cards from deal_hand func
-					while len(cards_in_play) < 4:
-						card_temp = deck0.deal_card()
-						#think I'm going to have the cards_in_play array store the cards img objects
-						#wait, maybe I should have the card class include its own Img obj --
-						#ok. need to research inheritance/class relationships so Card can have an Img obj as a class attribute.
-						#also need to reformat the card images
-						cards_in_play.append(card_temp)
+					# while len(cards_in_play) < 4:
+					# 	card_temp = deck0.deal_card()
+						
+					# 	cards_in_play.append(card_temp)
 
 
 
-					initial_hand = deck0.deal_hand() #update all to include modified deal function
+					# initial_hand = deck0.deal_hand() #update all to include modified deal function
 
-					cards_in_play.extend(initial_hand)
-					player0.cards.extend([cards_in_play[0], cards_in_play[2]])
-					house.cards.extend([cards_in_play[1], cards_in_play[3]])
-					player0.update_score()
-					house.update_score()
-					deal_visual0(deck0, player0.cards[0])
+					# cards_in_play.extend(initial_hand)
+					# player0.cards.extend([cards_in_play[0], cards_in_play[2]])
+					# house.cards.extend([cards_in_play[1], cards_in_play[3]])
+					# player0.update_score()
+					# house.update_score()
+					# deal_visual0(deck0, player0.cards[0])
 
 
-					print(player0.cards[0].img)
+					# print(player0.cards[0].img)
+		if flag:
+			for card in cards_in_play:
+				screen.blit(card.img.obj, (card.img.x, card.img.y))
+			
 			
 		manager.process_events(event)
 		manager.update(time_delta)

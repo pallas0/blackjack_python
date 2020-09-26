@@ -34,7 +34,7 @@ class Img:
 			if second_obj:
 				if isinstance(second_obj, list):
 					for elem in second_obj:
-						blit_func(elem.obj, (elem.x, elem.y))
+						blit_func(elem.img.obj, (elem.img.x, elem.img.y))
 				else:
 					blit_func(second_obj.obj, (second_obj.x, second_obj.y))
 			screen_update_func()
@@ -68,7 +68,7 @@ class Card:
 
 	 def establish_image(self):
 	 	image_construct = pygame.image.load("cards/" + 'f' + str(self.value) + self.suit + ".jpg").convert()
-	 	image = Img(image_construct, 350, -200) #change for animation
+	 	image = Img(image_construct, 350, 0) #change for animation
 	 	return image
 
 class Deck:

@@ -53,6 +53,10 @@ class Img:
 		return None
 
 
+# class Text(Img):
+	#working on it
+
+
 
 
 class Card:
@@ -125,11 +129,16 @@ class Player:
 	def update_score(self):
 		if len(self.cards) == 0:
 			self.score = 0
+			return 0
 		else:
 			sum = 0
 			for item in self.cards:
-				sum += item.value
+				if item.value <= 11:
+					sum += item.value
+				else:
+					sum += 11
 			self.score = sum
+			return sum
 
 
 

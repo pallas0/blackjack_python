@@ -179,16 +179,17 @@ while is_running:
 				main, is_running = False, False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
-					example = deck0.cards[0]
+					rndm_card = deck0.deal_card()
 					flag = True
+					rndm_card.img.update_location(*card_position[deck0.position])
 					
-					cards_in_play.append(example)
+					cards_in_play.append(rndm_card)
 				if event.key == pygame.K_n:
 					# example.img.x, example.img.y = move0(example.img, card_position[deck0.position][0], card_position[deck0.position][1])
-					temp = deck0.cards[1]
-					cards_in_play.append(temp)
-					print(temp.value)
-					print(temp.suit)
+					rndm_card = deck0.deal_card()
+					rndm_card.img.update_location(*card_position[deck0.position])
+					cards_in_play.append(rndm_card)
+					
 					#have global cards array append the cards from deal_hand func
 					# while len(cards_in_play) < 4:
 					# 	card_temp = deck0.deal_card()

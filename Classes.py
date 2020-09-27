@@ -48,6 +48,10 @@ class Img:
 		# 	while abs(new_y - y) > 0.001:
 		# 		y += dy_dx
 
+	def update_location(self, new_x, new_y):
+		self.x, self.y = new_x, new_y
+		return None
+
 
 
 
@@ -71,10 +75,11 @@ class Card:
 	 	image = Img(image_construct, 350, 0) #change for animation
 	 	return image
 
+
 class Deck:
 	def __init__(self):
 		self.cards = []
-		self.position = 0
+		self.position = -1
 		self.create()
 	
 
@@ -90,6 +95,7 @@ class Deck:
 		else:
 			n = random.randint(0, (len(self.cards) - 1))
 			new_card = self.cards.pop(n)
+			self.position += 1
 			return new_card
 
 #rewrite, the move function is throwing a Nonetype error that's not worth unraveling

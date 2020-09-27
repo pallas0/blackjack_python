@@ -65,37 +65,20 @@ instruct_index = 0
 main = False
 
 #editing temp variables
-flag = False
+cards_display = False
 i = 0
 
 #global game variables
 cards_in_play = []
 deck0 = Deck()
-house = Player()
-player0 = Player()
+house, player0 = Player(), Player()
+h_score, p_score = 0, 0
 
 #event [while] loop
 while is_running:
 	time_delta = clock.tick(60)/1000.0
 
 
-	# for event in pygame.event.get():
-	# 	if event.type == pygame.QUIT:
-	# 		is_running = False
-
-	# 	if event.type == pygame.USEREVENT:
-	# 		if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-	# 			if event.ui_element == hello_button:
-	# 				print('Hello World!')
-	# 				print(hello_button.check_pressed())
-	# 				intro = False
-	# 				main = True
-	# 				img0.x, img0.y = 800, 600
-	# 				screen.fill(WHITE)
-	# 				screen.blit(background, (0, 0))
-	# 				pygame.display.update()
-		
-	# 	manager.process_events(event)
 
 	manager.update(time_delta)
 	
@@ -140,6 +123,7 @@ while is_running:
 						pygame.display.update()
 					else:
 						main = True
+						cards_display = True
 						instruct = False
 				if event.key == pygame.K_b:
 					if instruct_index > 0:
@@ -162,16 +146,6 @@ while is_running:
 		#what's the max possible number of hands?
 		card_position = [(400, 400), (400, 100), (300, 400), (300, 100), (350, -100)]
 		
-		# deck1 = Deck()
-		# initial_hand = deck1.deal_hand()
-		# temp = initial_hand[0]
-		# temp_img = temp.establish_image()
-		# screen.blit(temp_img.obj, (0,0))
-		# #VICTORY! ...holy fuck I'm tired. ok, problem now is it keeps reshuffling the card blitted to (0,0)
-		move0 = Img.move(screen.fill, screen.blit, pygame.display.update, WHITE, cards_in_play)
-		# deal_visual0 = Deck.deal_visual(move0, card_position) 
-
-		# initial_animation = deck1.deal_visual(move0, card_position) 
 	
 
 		for event in pygame.event.get():
@@ -179,37 +153,33 @@ while is_running:
 				main, is_running = False, False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_KP_ENTER:
-					rndm_card = deck0.deal_card()
-					flag = True
-					rndm_card.img.update_location(*card_position[deck0.position])
-					
-					cards_in_play.append(rndm_card)
-				if event.key == pygame.K_n:
-					# example.img.x, example.img.y = move0(example.img, card_position[deck0.position][0], card_position[deck0.position][1])
-					rndm_card = deck0.deal_card()
-					rndm_card.img.update_location(*card_position[deck0.position])
-					cards_in_play.append(rndm_card)
-					
-					#have global cards array append the cards from deal_hand func
-					# while len(cards_in_play) < 4:
-					# 	card_temp = deck0.deal_card()
-						
-					# 	cards_in_play.append(card_temp)
+					if len(cards_in_play) < 4:
+						rndm_card = deck0.deal_card()
+						rndm_card.img.update_location(*card_position[deck0.position])
+						cards_in_play.append(rndm_card)
+
+						if len(cards_in_play) == 4:
+							player0.cards.extend([cards_in_play[0], cards_in_play[2]])
+							house.cards.extend([cards_in_play[1], cards_in_play[3]])
+							h_score, p_score = house.update_score(), player0.update_score()
+
+							flag = True
+							#build player turn promp text using flag bool
+							#might be time for that text class
+
+							print(h_score)
+							print(p_score)
+
+		if h_score == 21 or p_score == 21:
+			if p_score == 21:
+				print("You won!")
+			else:
+				print("You lost =(")
+				#these need to be extended into stage changers, eventually w/ the option to restart
 
 
-
-					# initial_hand = deck0.deal_hand() #update all to include modified deal function
-
-					# cards_in_play.extend(initial_hand)
-					# player0.cards.extend([cards_in_play[0], cards_in_play[2]])
-					# house.cards.extend([cards_in_play[1], cards_in_play[3]])
-					# player0.update_score()
-					# house.update_score()
-					# deal_visual0(deck0, player0.cards[0])
-
-
-					# print(player0.cards[0].img)
-		if flag:
+			
+		if cards_display:
 			for card in cards_in_play:
 				screen.blit(card.img.obj, (int(card.img.x), int(card.img.y)))
 			

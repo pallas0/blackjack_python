@@ -1,7 +1,7 @@
 import sys, pygame, random
 from pygame.locals import *
 import pygame_gui
-from Classes import Img, Deck, Player, Card
+from Classes import *
 
 #screen set up
 
@@ -170,8 +170,8 @@ while is_running:
 							print(h_score)
 							print(p_score)
 
-		if h_score == 21 or p_score == 21:
-			if p_score == 21:
+		if h_score >= 21 or p_score >= 21:
+			if p_score == 21 or h_score > 21:
 				print("You won!")
 			else:
 				print("You lost =(")

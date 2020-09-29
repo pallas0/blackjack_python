@@ -52,7 +52,7 @@ class Text(Img):
 		self.text = text
 		self.x = x
 		self.y = y
-		super().__init__(self)
+		super().__init__(self, self.x, self.y)
 		self.obj = self.create_text_obj()
 
 

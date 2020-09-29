@@ -43,6 +43,9 @@ instruct_text1 = Img(text_surface_obj_3, 75, 100)
 instruct_text2 = Img(text_surface_obj_4, 75, 100)
 instruct_text3 = Img(text_surface_obj_5, 75, 100)
 instruct_text4 = Img(text_surface_obj_6, 75, 100)
+#Text class test
+instruct_text5 = Text("Press Enter to move the game along", 75, 100)
+
 cont_text = Img(cont_surface_obj, 160, 400)
 
 # text_rect_obj = text_surface_obj.get_rect()
@@ -105,7 +108,7 @@ while is_running:
 	while instruct:
 		screen.fill(WHITE)
 		instruct_img_array = [instruct_text0, instruct_text1, instruct_text2, instruct_text3,
-		instruct_text4] #orders the text images
+		instruct_text4, instruct_text5] #orders the text images
 		
 
 		screen.blit(instruct_img_array[instruct_index].obj, (instruct_img_array[instruct_index].x,

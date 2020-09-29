@@ -40,21 +40,26 @@ class Img:
 			screen_update_func()
 			return (self.x, self.y)
 		return move_func
-				# screen.fill(WHITE)
-		# while abs(new_x - x) >= 0.001:
-
-		#  	() abs(new_x - x) > 0.001:
-		# 	x += dy_dx
-		# 	while abs(new_y - y) > 0.001:
-		# 		y += dy_dx
+			
 
 	def update_location(self, new_x, new_y):
 		self.x, self.y = new_x, new_y
-		return None
 
 
-# class Text(Img):
-	#working on it
+
+class Text(Img):
+	def __init__(self, text, x, y):
+		self.text = text
+		self.x = x
+		self.y = y
+		super().__init__(self)
+		self.obj = self.create_text_obj()
+
+
+	def create_text_obj(self):
+		font_obj = pygame.font.Font('fixedsys.ttf', 24)
+		text_obj = font_obj.render(self.text, True, BLACK, WHITE)
+		return text_obj
 
 
 
@@ -112,14 +117,7 @@ class Deck:
 				self.position += 1
 
 
-# deck1 = Deck()
-# initial_hand = deck1.deal_hand()
-# test_card = initial_hand[0]
-# print(test_card.img)
 
-
-# for elem in card_list1:
-# 	print(deal_visual(elem))
 
 class Player:
 	def __init__(self):
@@ -133,10 +131,15 @@ class Player:
 		else:
 			sum = 0
 			for item in self.cards:
-				if item.value <= 11:
+				if item.value <= 10:
 					sum += item.value
+				elif item.value == 14:
+					if sum > 10:
+						sum += 1
+					else:
+						sum += 11
 				else:
-					sum += 11
+					sum += 10
 			self.score = sum
 			return sum
 

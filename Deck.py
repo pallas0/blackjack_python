@@ -152,8 +152,8 @@ while is_running:
 		screen.fill(WHITE)
 		#add conditional func so array is self-updating w/ more positions
 		#what's the max possible number of hands?
-		card_position = [(400, 400), (400, 100), (300, 400), (300, 100),
-		 (200, 400), (200, 100)]
+		card_position = [(500, 400), (500, 100), (400, 400), (400, 100),
+		 (300, 400), (300, 100), (200, 400)]
 		
 	
 
@@ -175,8 +175,7 @@ while is_running:
 							h_or_s_text = Text("Hit or Stand?", 75, 100)
 							stage_text.append(h_or_s_text)
 
-							text_display = True
-							player_turn = True
+							text_display, player_turn = True, True
 							#build player turn promp text using flag bool
 							#might be time for that text class
 
@@ -185,12 +184,23 @@ while is_running:
 
 				if event.key == pygame.K_h:
 					if player_turn == True:
-						# text_display, player_turn = False, False
+						if deck0.position // 2 != 0:
+							deck0.position += 1
 						rndm_card = deck0.deal_card()
 						rndm_card.img.update_location(*card_position[deck0.position])
 						cards_in_play.append(rndm_card)
 						player0.cards.append(rndm_card)
 						p_score = player0.update_score()
+
+				if event.key == pygame.K_s:
+					if player_turn == True:
+						if deck0.position // 2 == 0:
+							deck0.position += 1
+						rndm_card = deck0.deal_card()
+						rndm_card.img.update_location(*card_position[deck0.position])
+						cards_in_play.append(rndm_card)
+						house.cards.append(rndm_card)
+						h_score = house.update_score()
 
 
 		if h_score >= 21 or p_score >= 21:

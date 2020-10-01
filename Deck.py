@@ -43,8 +43,11 @@ instruct_text1 = Img(text_surface_obj_3, 75, 100)
 instruct_text2 = Img(text_surface_obj_4, 75, 100)
 instruct_text3 = Img(text_surface_obj_5, 75, 100)
 instruct_text4 = Img(text_surface_obj_6, 75, 100)
-#Text class test
+
 instruct_text5 = Text("Press Enter to move the game along", 75, 100)
+
+victory_message = Text("You win!", 75, 200)
+loss_message = Text("You lost =(", 75, 200)
 
 cont_text = Img(cont_surface_obj, 160, 400)
 
@@ -61,18 +64,20 @@ hello_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275)
  	text='Start', manager=manager)
 
 
-#intro stage bool
+#stage bools
 intro = True
 instruct = False
 instruct_index = 0
 main = False
+cards_display, text_display = False, False
+player_turn = False
 
 #editing temp variables
-cards_display = False
+flag = False
 i = 0
 
 #global game variables
-cards_in_play = []
+cards_in_play, stage_text = [], []
 deck0 = Deck()
 house, player0 = Player(), Player()
 h_score, p_score = 0, 0
@@ -147,7 +152,8 @@ while is_running:
 		screen.fill(WHITE)
 		#add conditional func so array is self-updating w/ more positions
 		#what's the max possible number of hands?
-		card_position = [(400, 400), (400, 100), (300, 400), (300, 100), (350, -100)]
+		card_position = [(400, 400), (400, 100), (300, 400), (300, 100),
+		 (200, 400), (200, 100)]
 		
 	
 
@@ -166,18 +172,39 @@ while is_running:
 							house.cards.extend([cards_in_play[1], cards_in_play[3]])
 							h_score, p_score = house.update_score(), player0.update_score()
 
-							flag = True
+							h_or_s_text = Text("Hit or Stand?", 75, 100)
+							stage_text.append(h_or_s_text)
+
+							text_display = True
+							player_turn = True
 							#build player turn promp text using flag bool
 							#might be time for that text class
 
 							print(h_score)
 							print(p_score)
 
+				if event.key == pygame.K_h:
+					if player_turn == True:
+						# text_display, player_turn = False, False
+						rndm_card = deck0.deal_card()
+						rndm_card.img.update_location(*card_position[deck0.position])
+						cards_in_play.append(rndm_card)
+						player0.cards.append(rndm_card)
+						p_score = player0.update_score()
+
+
 		if h_score >= 21 or p_score >= 21:
+			text_display, cards_display = False, False
+			player_turn = False
+			stage_text.pop()
 			if p_score == 21 or h_score > 21:
-				print("You won!")
+				stage_text.append(victory_message)
+				text_display = True
+				#add stage change
 			else:
-				print("You lost =(")
+				stage_text.append(loss_message)
+				#add stage change
+				text_display = True
 				#these need to be extended into stage changers, eventually w/ the option to restart
 
 
@@ -185,6 +212,10 @@ while is_running:
 		if cards_display:
 			for card in cards_in_play:
 				screen.blit(card.img.obj, (int(card.img.x), int(card.img.y)))
+
+		if text_display:
+			for text in stage_text:
+				screen.blit(text.obj, (text.x, text.y))
 			
 			
 		manager.process_events(event)

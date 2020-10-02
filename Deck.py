@@ -35,19 +35,18 @@ text_surface_obj_3 = font_obj_2.render("The house will hit until their score is 
 	True, BLACK, WHITE)
 text_surface_obj_4 = font_obj_2.render("First to get a total score of 21 wins", True, BLACK, WHITE)
 text_surface_obj_5 = font_obj_2.render("Past 21 is a bust, a tied score is a draw", True, BLACK, WHITE)
-text_surface_obj_6 = font_obj_2.render("Good Luck", True, BLACK, WHITE)
+
 cont_surface_obj = font_obj_2.render("(press Enter to continue or B to go back)", True, BLACK, WHITE)
 
 instruct_text0 = Img(text_surface_obj_2, 75, 100) #coordinate fix
 instruct_text1 = Img(text_surface_obj_3, 75, 100)
 instruct_text2 = Img(text_surface_obj_4, 75, 100)
 instruct_text3 = Img(text_surface_obj_5, 75, 100)
-instruct_text4 = Img(text_surface_obj_6, 75, 100)
-
 instruct_text5 = Text("Press Enter to move the game along", 75, 100)
 
 victory_message = Text("You win!", 75, 200)
 loss_message = Text("You lost =(", 75, 200)
+restart_message = Text("Press Start to play again", 200, 250)
 
 
 cont_text = Img(cont_surface_obj, 160, 400)
@@ -71,7 +70,7 @@ instruct = False
 instruct_index = 0
 main = False
 cards_display, text_display = False, False
-player_turn = False
+player_turn, restart_option = False, False
 
 #editing temp variables
 flag = False
@@ -113,8 +112,8 @@ while is_running:
 
 	while instruct:
 		screen.fill(WHITE)
-		instruct_img_array = [instruct_text0, instruct_text1, instruct_text2, instruct_text3,
-		instruct_text4, instruct_text5] #orders the text images
+		instruct_img_array = [instruct_text0, instruct_text1, instruct_text2,
+		 instruct_text3, instruct_text5] #orders the text images
 		
 
 		screen.blit(instruct_img_array[instruct_index].obj, (instruct_img_array[instruct_index].x,
@@ -188,6 +187,15 @@ while is_running:
 							print(h_score)
 							print(p_score)
 
+					if restart_option == True:
+						#remember to reset global variables
+						cards_in_play, stage_text = [], [restart_message]
+						deck0 = Deck()
+						house, player0 = Player(), Player()
+						h_score, p_score = 0, 0
+						manager.draw_ui(screen)
+
+
 				if event.key == pygame.K_h:
 					if player_turn == True:
 						i = len(player0.cards) - 2
@@ -208,6 +216,18 @@ while is_running:
 						h_score = house.update_score()
 						print(h_score)
 
+			if event.type == pygame.USEREVENT:
+				if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+					screen.fill(WHITE)
+					pygame.display.update()
+					main, text_display = False, False
+					cards_in_play, stage_text = [], []
+					deck0 = Deck()
+					house, player0 = Player(), Player()
+					h_score, p_score = 0, 0
+					main, intro = False, True
+
+
 
 		if h_score >= 21 or p_score >= 21:
 			text_display, cards_display = False, False
@@ -215,6 +235,7 @@ while is_running:
 			stage_text.pop()
 			p_score_text = Text("Player total: " + str(p_score), 150, 400)
 			h_score_text = Text("House total: " + str(h_score), 150, 300)
+			restart_option = True
 			if p_score == 21 or h_score > 21:
 				stage_text.extend([victory_message, p_score_text,
 					h_score_text])

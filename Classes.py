@@ -88,7 +88,6 @@ class Card:
 class Deck:
 	def __init__(self):
 		self.cards = []
-		self.position = -1
 		self.create()
 	
 
@@ -104,7 +103,6 @@ class Deck:
 		else:
 			n = random.randint(0, (len(self.cards) - 1))
 			new_card = self.cards.pop(n)
-			self.position += 1
 			return new_card
 
 #rewrite, the move function is throwing a Nonetype error that's not worth unraveling
